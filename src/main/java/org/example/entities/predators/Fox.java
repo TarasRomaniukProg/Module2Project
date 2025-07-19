@@ -12,7 +12,7 @@ public class Fox extends Predator {
     }
 
     @Override
-    public void move() {
+    public void move(int x, int y) {
 
     }
 

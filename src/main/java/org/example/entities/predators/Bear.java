@@ -11,7 +11,7 @@ public class Bear extends Predator {
     }
 
     @Override
-    public void move() {
+    public void move(int x, int y) {
 
     }
 

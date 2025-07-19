@@ -23,7 +23,7 @@ public abstract class Animal {
         this.symbol = symbol;
     }
 
-    public abstract void move();
+    public abstract void move(int x, int y);
     public abstract void eat();
     public abstract void reproduce();
 

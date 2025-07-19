@@ -8,7 +8,7 @@ import org.example.util.Symbols;
 import java.util.Random;
 
 public class Runner {
-    public static void run () {
+    public static void initialise () {
         for (int i = 0; i < Symbols.entities.size(); i++) {
             Animal animal = Symbols.entities.get(i);
 
@@ -23,6 +23,22 @@ public class Runner {
             }
             Location location = Island.getLocation(x,y);
             location.addAnimal(animal);
+        }
+    }
+    public static void run () throws InterruptedException {
+        for (int y = 0; y < Island.getHeight(); y++) {
+            System.out.println("#".repeat(20));
+            for (int x = 0; x < Island.getWidth(); x++) {
+                Location location = Island.getLocation(x,y);
+                if (location != null && location.getAnimals() != null) {
+                    for (Animal animal : location.getAnimals()) {
+                        animal.move(x, y);
+                        System.out.println("* " + animal.getName());
+                        System.out.println(Render.render());
+                        Thread.sleep(1000);
+                    }
+                }
+            }
         }
     }
 }
