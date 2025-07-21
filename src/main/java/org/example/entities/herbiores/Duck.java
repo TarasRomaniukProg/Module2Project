@@ -1,21 +1,19 @@
 package org.example.entities.herbiores;
 
 
+import org.example.entities.DietEntry;
 import org.example.entities.Herbivore;
+import org.example.entities.Plant;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Duck extends Herbivore {
     public Duck() {
-        super(11, "Duck", 1, 200, 4, 0.15, "\uD83E\uDD86");
-    }
-
-    @Override
-    public void move(int x, int y) {
-
-    }
-
-    @Override
-    public void eat() {
-
+        Map<String, DietEntry> diet = new HashMap<>();
+        diet.put("Plant", new DietEntry(100, Plant.WEIGHT));
+        diet.put("Caterpillar", new DietEntry(90, Caterpillar.getWeight()));
+        super(11, "Duck", 1, 200, 4, 0.15, "\uD83E\uDD86", diet);
     }
 
     @Override
