@@ -8,19 +8,19 @@ import java.util.Random;
 public abstract class Animal {
     private int id;
     private String name;
-    private static double weight;
+    private double weight;
     private int maxCount;
     private int speed;
     private double foodNeeded;
-    private String symbol;
-    private Map<String, DietEntry> diet;
+    private final String symbol;
+    private final Map<String, DietEntry> diet;
     private double eatenAmount;
 
 
     public Animal(int id, String name, double weight, int maxCount, int speed, double foodNeeded, String symbol, Map<String, DietEntry> diet) {
         this.id = id;
         this.name = name;
-        Animal.weight = weight;
+        this.weight = weight;
         this.maxCount = maxCount;
         this.speed = speed;
         this.foodNeeded = foodNeeded;
@@ -29,8 +29,16 @@ public abstract class Animal {
         this.eatenAmount = 0;
     }
 
+    private final int VERTICAL_SIDE = 1;
+    private final int HORIZONTAL_SIDE = 2;
+    private final int RIGHT_DIAGONAL = 3;
+    private final int LEFT_DIAGONAL = 4;
 
-    public void move(int x, int y) {
+    private final int BACK = 1;
+    private final int FURTHER = 2;
+
+
+    public void move(Island island, int x, int y) {
         Random random = new Random();
 
         int way = random.nextInt(1, 4);
@@ -44,104 +52,104 @@ public abstract class Animal {
 
         System.out.printf("Way: %d, Side: %d, Step: %d\n", way, side, step);
         switch (way) {
-            case 1 -> {
-                if (side == 1) {
+            case VERTICAL_SIDE -> {
+                if (side == BACK) {
                     if (y - step >= 0) {
                         int finalY = y - step;
-                        if (Island.getLocation(x, finalY) == null) {
-                            Island.setLocation(new Location(), x, finalY);
+                        if (island.getLocation(x, finalY) == null) {
+                            island.setLocation(new Location(), x, finalY);
                         }
-                        Location finalLocation = Island.getLocation(x, finalY);
-                        moveLocation(finalLocation, x, y);
+                        Location finalLocation = island.getLocation(x, finalY);
+                        moveLocation(island, finalLocation, x, y);
                     }
 
                 }
-                if (side == 2) {
-                    if (y + step < Island.getHeight()) {
+                if (side == FURTHER) {
+                    if (y + step < island.getHeight()) {
                         int finalY = y + step;
-                        if (Island.getLocation(x, finalY) == null) {
-                            Island.setLocation(new Location(), x, finalY);
+                        if (island.getLocation(x, finalY) == null) {
+                            island.setLocation(new Location(), x, finalY);
                         }
-                        Location finalLocation = Island.getLocation(x, y + step);
-                        moveLocation(finalLocation, x, y);
+                        Location finalLocation = island.getLocation(x, y + step);
+                        moveLocation(island, finalLocation, x, y);
                     }
                 }
             }
-            case 2 -> {
-                if (side == 1) {
+            case HORIZONTAL_SIDE -> {
+                if (side == BACK) {
                     if (x - step >= 0) {
                         int finalX = x - step;
-                        if (Island.getLocation(finalX, y) == null) {
-                            Island.setLocation(new Location(), finalX, y);
+                        if (island.getLocation(finalX, y) == null) {
+                            island.setLocation(new Location(), finalX, y);
                         }
-                        Location finalLocation = Island.getLocation(finalX, y);
-                        moveLocation(finalLocation, x, y);
+                        Location finalLocation = island.getLocation(finalX, y);
+                        moveLocation(island, finalLocation, x, y);
                     }
                 }
-                if (side == 2) {
-                    if (x + step < Island.getWidth()) {
+                if (side == FURTHER) {
+                    if (x + step < island.getWidth()) {
                         int finalX = x + step;
-                        if (Island.getLocation(finalX, y) == null) {
-                            Island.setLocation(new Location(), finalX, y);
+                        if (island.getLocation(finalX, y) == null) {
+                            island.setLocation(new Location(), finalX, y);
                         }
-                        Location finalLocation = Island.getLocation(x + step, y);
-                        moveLocation(finalLocation, x, y);
+                        Location finalLocation = island.getLocation(x + step, y);
+                        moveLocation(island, finalLocation, x, y);
                     }
                 }
             }
-            case 3 -> {
-                if (side == 1) {
+            case RIGHT_DIAGONAL -> {
+                if (side == BACK) {
                     if (x - step >= 0 && y - step >= 0) {
                         int finalX = x - step;
                         int finalY = y - step;
-                        if (Island.getLocation(finalX, finalY) == null) {
-                            Island.setLocation(new Location(), finalX, finalY);
+                        if (island.getLocation(finalX, finalY) == null) {
+                            island.setLocation(new Location(), finalX, finalY);
                         }
-                        Location finalLocation = Island.getLocation(x - step, y - step);
-                        moveLocation(finalLocation, x, y);
+                        Location finalLocation = island.getLocation(x - step, y - step);
+                        moveLocation(island, finalLocation, x, y);
                     }
                 }
-                if (side == 2) {
-                    if (x + step < Island.getWidth() && y + step < Island.getHeight()) {
+                if (side == FURTHER) {
+                    if (x + step < island.getWidth() && y + step < island.getHeight()) {
                         int finalX = x + step;
                         int finalY = x + step;
-                        if (Island.getLocation(finalX, finalY) == null) {
-                            Island.setLocation(new Location(), finalX, finalY);
+                        if (island.getLocation(finalX, finalY) == null) {
+                            island.setLocation(new Location(), finalX, finalY);
                         }
-                        Location finalLocation = Island.getLocation(x + step, y + step);
-                        moveLocation(finalLocation, x, y);
+                        Location finalLocation = island.getLocation(x + step, y + step);
+                        moveLocation(island, finalLocation, x, y);
                     }
                 }
             }
-            case 4 -> {
-                if (side == 1) {
-                    if (x + step < Island.getWidth() && y - step >= 0) {
+            case LEFT_DIAGONAL -> {
+                if (side == BACK) {
+                    if (x + step < island.getWidth() && y - step >= 0) {
                         int finalX = x + step;
                         int finalY = y - step;
-                        if (Island.getLocation(finalX, finalY) == null) {
-                            Island.setLocation(new Location(), finalX, finalY);
+                        if (island.getLocation(finalX, finalY) == null) {
+                            island.setLocation(new Location(), finalX, finalY);
                         }
-                        Location finalLocation = Island.getLocation(x + step, y - step);
-                        moveLocation(finalLocation, x, y);
+                        Location finalLocation = island.getLocation(x + step, y - step);
+                        moveLocation(island, finalLocation, x, y);
                     }
                 }
-                if (side == 2) {
-                    if (x - step >= 0 && y + step < Island.getHeight()) {
+                if (side == FURTHER) {
+                    if (x - step >= 0 && y + step < island.getHeight()) {
                         int finalX = x - step;
                         int finalY = y + step;
-                        if (Island.getLocation(finalX, finalY) == null) {
-                            Island.setLocation(new Location(), finalX, finalY);
+                        if (island.getLocation(finalX, finalY) == null) {
+                            island.setLocation(new Location(), finalX, finalY);
                         }
-                        Location finalLocation = Island.getLocation(x - step, y + step);
-                        moveLocation(finalLocation, x, y);
+                        Location finalLocation = island.getLocation(x - step, y + step);
+                        moveLocation(island, finalLocation, x, y);
                     }
                 }
             }
         }
     }
 
-    public void moveLocation(Location finalLocation, int x, int y) {
-        Location location = Island.getLocation(x, y);
+    public void moveLocation(Island island, Location finalLocation, int x, int y) {
+        Location location = island.getLocation(x, y);
         for (Animal animal : finalLocation.getAnimals()) {
             boolean isEdible = eat(animal.getName());
             if (isEdible) {
@@ -163,11 +171,9 @@ public abstract class Animal {
 
     public boolean eat(String name) {
         Random random = new Random();
-        for (Map.Entry<String, DietEntry> entry : diet.entrySet()) {
-            DietEntry dietEntry = entry.getValue();
-            if (dietEntry.getWeight() + eatenAmount <= foodNeeded && random.nextInt(100) < dietEntry.getProbability()) {
-                return true;
-            }
+        DietEntry dietEntry = diet.getOrDefault(name, null);
+        if (dietEntry != null) {
+            return dietEntry.getWeight() + eatenAmount <= foodNeeded && random.nextInt(100) < dietEntry.getProbability();
         }
         return false;
     }
@@ -191,12 +197,12 @@ public abstract class Animal {
         this.name = name;
     }
 
-    public static double getWeight() {
+    public double getWeight() {
         return weight;
     }
 
     public void setWeight(double weight) {
-        Animal.weight = weight;
+        this.weight = weight;
     }
 
     public int getMaxCount() {

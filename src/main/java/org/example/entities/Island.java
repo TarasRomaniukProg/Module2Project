@@ -15,22 +15,22 @@ public class Island {
         Island.width = width;
     }
 
-    public static List<Location> getAllLocations() {
+    public List<Location> getAllLocations() {
         return Arrays.stream(map).flatMap(Arrays::stream).toList();
     }
 
-    public static Location getLocation(int x, int y) {
+    public Location getLocation(int x, int y) {
         return map[x][y];
     }
-    public static void setLocation(Location location, int x, int y) {
+    public void setLocation(Location location, int x, int y) {
         map[x][y] = location;
     }
 
-    public static int getWidth() {
+    public int getWidth() {
         return width;
     }
 
-    public static int getHeight() {
+    public int getHeight() {
         return height;
     }
 }

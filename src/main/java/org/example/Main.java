@@ -4,17 +4,17 @@ import org.example.entities.Island;
 import org.example.game.Render;
 import org.example.game.Runner;
 
-import java.io.IOException;
-
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
+        Island island = new Island(100,20);
+        Runner runner = new Runner(island);
+        Render render = new Render(island);
+        runner.initialise();
 
-        new Island(100,20);
-        Runner.initialise();
-        String field = Render.render();
+        String field = render.render();
 
         System.out.println(field);
 
-        Runner.run();
+        runner.run();
     }
 }

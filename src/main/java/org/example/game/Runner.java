@@ -11,7 +11,9 @@ import java.util.Map;
 import java.util.Random;
 
 public class Runner {
-    private static final Map<Integer, Animal> entities = new HashMap<>(Map.ofEntries(
+    private final Island island;
+    private final Render render;
+    private final Map<Integer, Animal> entities = new HashMap<>(Map.ofEntries(
             Map.entry(0, new Bear()),
             Map.entry(1, new Buffalo()),
             Map.entry(2, new Horse()),
@@ -29,34 +31,45 @@ public class Runner {
             Map.entry(14, new Deer())
     )
     );
-    public static void initialise () {
+
+    public Runner(Island island) {
+        this.island = island;
+        this.render = new Render(island);
+    }
+
+    public void initialise() {
         for (Map.Entry<Integer, Animal> entity : entities.entrySet()) {
             Animal animal = entity.getValue();
 
             Random random = new Random();
 
-            int x = random.nextInt(0, Island.getWidth() - 1);
-            int y = random.nextInt(0, Island.getHeight() - 1);
+            int x = random.nextInt(0, island.getWidth() - 1);
+            int y = random.nextInt(0, island.getHeight() - 1);
 
-            if (Island.getLocation(x, y) == null) {
+            if (island.getLocation(x, y) == null) {
                 Location location = new Location();
-                Island.setLocation(location, x, y);
+                island.setLocation(location, x, y);
             }
-            Location location = Island.getLocation(x,y);
+            Location location = island.getLocation(x, y);
             location.addAnimal(animal);
         }
     }
-    public static void run () throws InterruptedException {
-        for (int y = 0; y < Island.getHeight(); y++) {
-            for (int x = 0; x < Island.getWidth(); x++) {
-                Location location = Island.getLocation(x,y);
+
+    public void run() {
+        for (int y = 0; y < island.getHeight(); y++) {
+            for (int x = 0; x < island.getWidth(); x++) {
+                Location location = island.getLocation(x, y);
                 if (location != null && location.getAnimals() != null) {
                     for (int i = 0; i < location.getAnimals().size(); i++) {
                         Animal animal = location.getAnimals().get(i);
-                        animal.move(x, y);
+                        animal.move(island, x, y);
                         System.out.println("* " + animal.getName());
-                        System.out.println(Render.render());
-                        Thread.sleep(1000);
+                        System.out.println(render.render());
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
             }

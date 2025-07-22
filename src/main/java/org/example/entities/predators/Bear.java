@@ -3,7 +3,7 @@ package org.example.entities.predators;
 
 import org.example.entities.DietEntry;
 import org.example.entities.Predator;
-import org.example.entities.herbiores.*;
+import org.example.util.AnimalsInfo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,18 +13,18 @@ public class Bear extends Predator {
 
     public Bear() {
         Map<String, DietEntry> diet = new HashMap<>();
-        diet.put("Horse", new DietEntry(40, Horse.getWeight()));
-        diet.put("Boa", new DietEntry(80, Boa.getWeight()));
-        diet.put("Rabbit", new DietEntry(80, Rabbit.getWeight()));
-        diet.put("Deer", new DietEntry(80, Deer.getWeight()));
-        diet.put("Duck", new DietEntry(60, Duck.getWeight()));
-        diet.put("Goat", new DietEntry(70, Goat.getWeight()));
-        diet.put("Mouse", new DietEntry(90, Mouse.getWeight()));
-        diet.put("Boar", new DietEntry(50, Boar.getWeight()));
-        diet.put("Buffalo", new DietEntry(20, Buffalo.getWeight()));
-        diet.put("Sheep", new DietEntry(70, Sheep.getWeight()));
+        diet.put("Horse", new DietEntry(40, AnimalsInfo.animalWeight.get("Horse")));
+        diet.put("Boa", new DietEntry(80, AnimalsInfo.animalWeight.get("Boa")));
+        diet.put("Rabbit", new DietEntry(80, AnimalsInfo.animalWeight.get("Rabbit")));
+        diet.put("Deer", new DietEntry(80, AnimalsInfo.animalWeight.get("Deer")));
+        diet.put("Duck", new DietEntry(60, AnimalsInfo.animalWeight.get("Duck")));
+        diet.put("Goat", new DietEntry(70, AnimalsInfo.animalWeight.get("Goat")));
+        diet.put("Mouse", new DietEntry(90, AnimalsInfo.animalWeight.get("Mouse")));
+        diet.put("Boar", new DietEntry(50, AnimalsInfo.animalWeight.get("Boar")));
+        diet.put("Buffalo", new DietEntry(20, AnimalsInfo.animalWeight.get("Buffalo")));
+        diet.put("Sheep", new DietEntry(70, AnimalsInfo.animalWeight.get("Sheep")));
 
-        super(0, "Bear", 500, 5, 2, 80, "\uD83D\uDC3B",diet);
+        super(0, "Bear", AnimalsInfo.animalWeight.get("Bear"), 5, 2, 80, "\uD83D\uDC3B",diet);
     }
 
     @Override
